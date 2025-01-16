@@ -5,7 +5,7 @@ include 'koneksi.php';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $query = "SELECT * FROM mahasiswa";
 if ($search) {
-    $query .= " WHERE CAST(npm AS TEXT) ILIKE '%$search%'"; // Gunakan CAST untuk konversi ke teks
+    $query .= " WHERE CAST(npm AS TEXT) ILIKE '%$search%'"; // Menggunakan CAST untuk konversi ke teks
 }
 
 $result = pg_query($koneksi, $query); 
@@ -24,13 +24,12 @@ $num_rows = pg_num_rows($result);
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        /* CSS untuk menyembunyikan kolom picture dan actions saat mencetak */
+        /* CSS untuk fungsi print yang akan menyembunyikan kolom picture dan actions saat mencetak */
         @media print {
             .no-print {
                 display: none;
             }
 
-            /* Table styles for printing */
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -47,12 +46,10 @@ $num_rows = pg_num_rows($result);
                 background-color: #f3f4f6;
             }
 
-            /* Optional: Make font bigger in print view */
             body {
                 font-size: 14px;
             }
 
-            /* Optional: Ensure no extra margins or spaces in the print view */
             @page {
                 margin: 10mm;
             }
@@ -60,22 +57,17 @@ $num_rows = pg_num_rows($result);
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col justify-between min-h-screen">
-
-    <!-- Header -->
+    <!-- Bagian Header -->
     <?php include 'header.php'; ?>
 
-    <!-- Main Content -->
+    <!-- Bagian konten utama -->
     <div class="container mx-auto p-6 flex-grow">
         <h1 class="text-3xl font-bold text-center mb-6 text-slate-500">Manajemen Data Mahasiswa</h1>
 
         <!-- Tombol Add Data, Print, dan Kembali -->
         <div class="mb-4 flex justify-start space-x-4">
             <a href="tambah.php" class="bg-blue-400 p-3 rounded-lg  text-white font-bold hover:bg-blue-500">Tambah Mahasiswa</a>
-            
-            <!-- Tombol Print -->
             <button onclick="printTable()" class="bg-green-500 text-white p-3  rounded-md hover:bg-green-600">Print Data</button>
-
-            <!-- Tombol Kembali setelah pencarian -->
             <?php if ($search): ?>
                 <a href="index.php" class="bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600">Kembali</a>
             <?php endif; ?>
@@ -141,20 +133,16 @@ $num_rows = pg_num_rows($result);
 
     </div>
 
-    <!-- Footer -->
+    <!-- Bagian Footer -->
     <?php include 'footer.php'; ?>
 
     <script>
         function printTable() {
-            // Clone the table to avoid affecting the original table
             var table = document.querySelector("table").cloneNode(true);
-            // Remove the columns that should not be printed
             var cellsToHide = table.querySelectorAll(".no-print");
             cellsToHide.forEach(function(cell) {
                 cell.style.display = 'none';
             });
-
-            // Open the print dialog
             var printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html><head><title>Print Table</title><style>');
             printWindow.document.write('table {width: 100%; border-collapse: collapse; margin: 20px 0;}');

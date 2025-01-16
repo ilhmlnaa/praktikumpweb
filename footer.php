@@ -1,4 +1,3 @@
-<!-- footer.php -->
 <footer class="bg-gray-800 text-white py-6 mt-10">
     <div class="container mx-auto text-center">
         <p>&copy; 2025 Gunadarma University. All Rights Reserved.</p>
@@ -7,7 +6,6 @@
           <a href="https://github.com/ilhmlnaa/praktikumpweb" target="_blank">
             Github Repository 
             <span>
-              <!-- Menggunakan ikon Font Awesome untuk GitHub -->
               <i class="fab fa-github"></i>
             </span>
           </a>
