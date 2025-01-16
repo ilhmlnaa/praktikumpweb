@@ -70,17 +70,11 @@ if (isset($_POST['submit'])) {
                 <input type="file" class="mt-1 p-2 w-full border border-gray-300 rounded-md" id="picture" name="picture" accept="image/*">
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Status</label>
-                <div class="flex items-center space-x-4">
-                    <label for="status_active" class="flex items-center space-x-2">
-                        <input type="radio" id="status_active" name="status" value="aktif" class="border-gray-300 text-blue-500" required>
-                        <span>Aktif</span>
-                    </label>
-                    <label for="status_inactive" class="flex items-center space-x-2">
-                        <input type="radio" id="status_inactive" name="status" value="tidak aktif" class="border-gray-300 text-blue-500" required>
-                        <span>Tidak Aktif</span>
-                    </label>
-                </div>
+                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                <select name="status" id="status" class="mt-1 p-2 w-full border border-gray-300 rounded-md" required>
+                    <option value="aktif" <?= isset($data['status']) && $data['status'] == 'aktif' ? 'selected' : ''; ?>>Aktif</option>
+                    <option value="tidak aktif" <?= isset($data['status']) && $data['status'] == 'tidak aktif' ? 'selected' : ''; ?>>Tidak Aktif</option>
+                </select>
             </div>
 
             <div class="flex justify-end space-x-2 col-span-2">

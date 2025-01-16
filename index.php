@@ -1,15 +1,16 @@
 <?php
 include 'koneksi.php';
 
-// Proses pencarian berdasarkan NPM
+// Proses pencarian berdasarkan NPM melalui parameter
 $search = isset($_GET['search']) ? $_GET['search'] : '';
+// Pengambilan semua data mahasiswa
 $query = "SELECT * FROM mahasiswa";
+// Jika ada parameter pencarian, tambahkan WHERE ke query
 if ($search) {
     $query .= " WHERE CAST(npm AS TEXT) ILIKE '%$search%'"; // Menggunakan CAST untuk konversi ke teks
 }
 
 $result = pg_query($koneksi, $query); 
-
 // Cek apakah ada hasil pencarian
 $num_rows = pg_num_rows($result);
 ?>
@@ -22,30 +23,25 @@ $num_rows = pg_num_rows($result);
     <title>Manajemen Data Mahasiswa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <style>
         /* CSS untuk fungsi print yang akan menyembunyikan kolom picture dan actions saat mencetak */
         @media print {
             .no-print {
                 display: none;
             }
-
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin: 20px 0;
             }
-
             th, td {
                 padding: 8px 12px;
                 border: 1px solid #000;
                 text-align: center;
             }
-
             th {
                 background-color: #f3f4f6;
             }
-
             body {
                 font-size: 14px;
             }
@@ -72,14 +68,6 @@ $num_rows = pg_num_rows($result);
                 <a href="index.php" class="bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600">Kembali</a>
             <?php endif; ?>
         </div>
-
-        <!-- Form pencarian -->
-        <!-- <div class="mb-4 flex justify-center">
-            <form action="index.php" method="GET" class="flex items-center space-x-2">
-                <input type="text" name="search" placeholder="Cari berdasarkan NPM" class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" value="<?= htmlspecialchars($search); ?>" />
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Cari</button>
-            </form>
-        </div> -->
 
         <!-- Tabel Data Mahasiswa -->
         <table class="min-w-full bg-white border border-gray-300 rounded-lg">
@@ -123,14 +111,19 @@ $num_rows = pg_num_rows($result);
                             </td>
                         </tr>
                     <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="9" class="py-2 px-4 text-center text-red-500">Mahasiswa dengan NPM <?= htmlspecialchars($search); ?> tidak ditemukan.</td>
-                    </tr>
-                <?php endif; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="9" class="py-2 px-4 text-center text-red-500">
+                                <?php if ($search): ?>
+                                    Mahasiswa dengan NPM <?= htmlspecialchars($search); ?> tidak ditemukan.
+                                <?php else: ?>
+                                    Data belum ditambahkan.
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
             </tbody>
         </table>
-
     </div>
 
     <!-- Bagian Footer -->
